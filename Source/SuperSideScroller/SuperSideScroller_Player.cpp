@@ -2,4 +2,52 @@
 
 
 #include "SuperSideScroller_Player.h"
+#include "Components/InputComponent.h"
+#include "EnhancedInputComponent.h"
+#include "EnhancedInputSubsystems.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
+ASuperSideScroller_Player::ASuperSideScroller_Player()
+{
+	//Set sprinting to false by default.
+	bIsSprinting = false;
+	//Set our Max Walk Speed to 300.0f
+	GetCharacterMovement()->MaxWalkSpeed = 300.0f;
+}
+
+void ASuperSideScroller_Player::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+{
+	Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+	UEnhancedInputComponent* EnhancedPlayerInput = Cast<UEnhancedInputComponent>(PlayerInputComponent);
+	if (EnhancedPlayerInput) {
+		APlayerController* PlayerController = Cast<APlayerController>(GetController());
+		UEnhancedInputLocalPlayerSubsystem* EnhancedSubsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer());
+
+		if (EnhancedSubsystem) {
+			EnhancedSubsystem->AddMappingContext(this->IC_Character, 1);
+		}
+		//Bind pressed action Sprint to your Sprint function
+		EnhancedPlayerInput->BindAction(IA_Sprint, ETriggerEvent::Triggered, this, &ASuperSideScroller_Player::Sprint);
+
+		//Bind released action Sprint to your StopSprinting function
+		EnhancedPlayerInput->BindAction(IA_Sprint, ETriggerEvent::Completed, this, &ASuperSideScroller_Player::StopSprinting);
+	}
+
+}
+
+void ASuperSideScroller_Player::Sprint()
+{
+	if (!this->bIsSprinting) {
+		this->bIsSprinting = true;
+		this->GetCharacterMovement()->MaxWalkSpeed = 500.0f;
+	}
+}
+
+void ASuperSideScroller_Player::StopSprinting()
+{
+	if (bIsSprinting) {
+		this->bIsSprinting = false;
+		this->GetCharacterMovement()->MaxWalkSpeed = 300.0f;
+	}
+}
