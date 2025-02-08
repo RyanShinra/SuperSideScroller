@@ -25,7 +25,7 @@ void ASuperSideScroller_Player::SetupPlayerInputComponent(UInputComponent* Playe
 		UEnhancedInputLocalPlayerSubsystem* EnhancedSubsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer());
 
 		if (EnhancedSubsystem) {
-			EnhancedSubsystem->AddMappingContext(this->IC_Character, 1);
+			EnhancedSubsystem->AddMappingContext(this->IC_Character, 0);
 		}
 		//Bind pressed action Sprint to your Sprint function
 		EnhancedPlayerInput->BindAction(IA_Sprint, ETriggerEvent::Triggered, this, &ASuperSideScroller_Player::Sprint);
