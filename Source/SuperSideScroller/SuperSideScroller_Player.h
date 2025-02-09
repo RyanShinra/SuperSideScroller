@@ -24,12 +24,25 @@ protected:
 	void Sprint();
 	void StopSprinting();
 
+    void ThrowProjectile();
+	void ChaoLikesIt();
+	
+	//Input Mapping Context for our character
+
 	UPROPERTY(EditAnywhere, Category = "Input")
 	class UInputMappingContext* IC_Character = nullptr;
 
 	UPROPERTY(EditAnywhere, Category = "Input")
 	class UInputAction* IA_Sprint = nullptr;
 
+	//Function to throw a projectile
+    UPROPERTY(EditAnywhere, Category = "Input")
+    class UInputAction* IA_Throw = nullptr;
+
+    UPROPERTY(EditAnywhere, Category = "Input")
+    class UInputAction* IA_ChaoLikesIt = nullptr;
+
 private:
+	//Boolean to check if we are sprinting
 	bool bIsSprinting;
 };
