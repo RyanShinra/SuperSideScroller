@@ -27,8 +27,8 @@ void ASuperSideScroller_Player::SetupPlayerInputComponent(UInputComponent* Playe
 		if (EnhancedSubsystem) {
 			EnhancedSubsystem->AddMappingContext(this->IC_Character, 0);
 		}
-		//Bind pressed action Sprint to your Sprint function
-		EnhancedPlayerInput->BindAction(IA_Sprint, ETriggerEvent::Triggered, this, &ASuperSideScroller_Player::Sprint);
+		//Bind pressed action StartSprinting to your StartSprinting function
+		EnhancedPlayerInput->BindAction(IA_Sprint, ETriggerEvent::Triggered, this, &ASuperSideScroller_Player::StartSprinting);
 
 		//Bind released action Sprint to your StopSprinting function
 		EnhancedPlayerInput->BindAction(IA_Sprint, ETriggerEvent::Completed, this, &ASuperSideScroller_Player::StopSprinting);
@@ -44,7 +44,7 @@ void ASuperSideScroller_Player::SetupPlayerInputComponent(UInputComponent* Playe
 #include "Engine/Engine.h"
 #include "GameFramework/PlayerController.h"
 
-void ASuperSideScroller_Player::Sprint()
+void ASuperSideScroller_Player::StartSprinting()
 {
 	if (!this->bIsSprinting) {
 		UE_LOG(LogTemp, Warning, TEXT("Sprinting -> _>"));

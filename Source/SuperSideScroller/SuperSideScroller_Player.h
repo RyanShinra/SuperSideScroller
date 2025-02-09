@@ -21,7 +21,7 @@ protected:
 	//Override base character class function to set up our player input component
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 
-	void Sprint();
+	void StartSprinting();
 	void StopSprinting();
 
     void ThrowProjectile();
@@ -41,6 +41,9 @@ protected:
 
     UPROPERTY(EditAnywhere, Category = "Input")
     class UInputAction* IA_ChaoLikesIt = nullptr;
+
+	UPROPERTY(EditAnywhere, Category = "Input")
+	class UInputAction* IA_LeftStickPress = nullptr;
 
 private:
 	//Boolean to check if we are sprinting
