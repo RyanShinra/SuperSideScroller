@@ -6,11 +6,14 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "GameFramework/CharacterMovementComponent.h"
+// May Not Need
+#include "Engine/Engine.h" 
+#include "GameFramework/PlayerController.h"
 
 ASuperSideScroller_Player::ASuperSideScroller_Player()
 {
 	//Set sprinting to false by default.
-	bIsSprinting = false;
+	bIsRunning = false;
 	//Set our Max Walk Speed to 300.0f
 	GetCharacterMovement()->MaxWalkSpeed = 300.0f;
 }
@@ -37,36 +40,39 @@ void ASuperSideScroller_Player::SetupPlayerInputComponent(UInputComponent* Playe
 		EnhancedPlayerInput->BindAction(IA_Throw, ETriggerEvent::Triggered, this, &ASuperSideScroller_Player::ThrowProjectile);
 
 		EnhancedPlayerInput->BindAction(IA_ChaoLikesIt, ETriggerEvent::Triggered, this, &ASuperSideScroller_Player::ChaoLikesIt);
+
+		//Bind the stick press
+		EnhancedPlayerInput->BindAction(IA_LeftStickPress, ETriggerEvent::Started, this, &ASuperSideScroller_Player::OnStickPress);
 	}
 
 }
 
-#include "Engine/Engine.h"
-#include "GameFramework/PlayerController.h"
 
 void ASuperSideScroller_Player::StartSprinting()
 {
-	if (!this->bIsSprinting) {
+	if (!this->bIsRunning) {
 		UE_LOG(LogTemp, Warning, TEXT("Sprinting -> _>"));
 		GLog->Flush();
 		if (GEngine) {
 			GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Yellow, TEXT("Sprinting -> _>"));
 		}
-		this->bIsSprinting = true;
-		this->GetCharacterMovement()->MaxWalkSpeed = 500.0f;
+
+		this->bIsRunning = true;
+		this->GetCharacterMovement()->MaxWalkSpeed = this->RunSpeed;
 	}
 }
 
 void ASuperSideScroller_Player::StopSprinting()
 {
-	if (bIsSprinting) {
+	if (bIsRunning) {
 		UE_LOG(LogTemp, Warning, TEXT("Walking _-_-"));
 		GLog->Flush();
 		if (GEngine) {
 			GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Yellow, TEXT("Walking _-_-"));
 		}
-		this->bIsSprinting = false;
-		this->GetCharacterMovement()->MaxWalkSpeed = 300.0f;
+
+		this->bIsRunning = false;
+		this->GetCharacterMovement()->MaxWalkSpeed = this->BaseWalkSpeed;
 	}
 }
 

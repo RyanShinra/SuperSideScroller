@@ -28,7 +28,6 @@ protected:
 	void ChaoLikesIt();
 	
 	//Input Mapping Context for our character
-
 	UPROPERTY(EditAnywhere, Category = "Input")
 	class UInputMappingContext* IC_Character = nullptr;
 
@@ -47,5 +46,5 @@ protected:
 
 private:
 	//Boolean to check if we are sprinting
-	bool bIsSprinting;
+	bool bIsRunning = false;
 };
