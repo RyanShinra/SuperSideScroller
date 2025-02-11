@@ -21,10 +21,13 @@ protected:
 	//Override base character class function to set up our player input component
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 
-	void StartSprinting();
-	void StopSprinting();
+	virtual void Move(const FInputActionValue& Value) override;
 
-    void ThrowProjectile();
+
+	void OnStickPress();
+	void OnRunButtonDown();
+	void OnRunButtonUp();
+    void OnThrowPressed();
 	void ChaoLikesIt();
 	
 	//Input Mapping Context for our character
@@ -45,6 +48,13 @@ protected:
 	class UInputAction* IA_LeftStickPress = nullptr;
 
 private:
+	void StartRunning();
+	void StopRunning();
+
+private:
 	//Boolean to check if we are sprinting
 	bool bIsRunning = false;
+	bool bWantsToRun = false;
+	const float BaseWalkSpeed = 300.0f;
+	const float RunSpeed = 500.0f;
 };
